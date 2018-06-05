@@ -6,15 +6,27 @@ Application Bank
 
 * découpage en couche
 
-## Premiers events et commandes
+## Premiers use case:
 
-* avec un aggregat: Compte
-* avec une commande: OuvrirCompte
 * avec une commande: CréditerCompte
 * avec un event bus
 * tout en mémoire
 * création d'une projection du compte
-* utilisation du framework de test.
+* utilisation du framework de test (mode TDD)
+
+### Ouvrir un compte
+
+* avec un aggregat: Compte
+* avec une commande: OuvrirCompte
+
+### Créditer un compte
+
+* commande
+
+### Regle de gestion: détection de piratage
+
+* Si un trop gros débit arrive, lancer un évent particulier
+* ajouter une projection pour ce type d'event.
 
 ## Persistence
 
