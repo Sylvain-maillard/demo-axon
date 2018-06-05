@@ -14,6 +14,7 @@ Application Bank
 * avec un event bus
 * tout en mémoire
 * création d'une projection du compte
+* utilisation du framework de test.
 
 ## Persistence
 
@@ -27,10 +28,15 @@ Application Bank
 ## limites de l'aggregat
 
 * Virer de l'argent d'un compte à un autre
-* Saga ? 
+* on reste dans un bounded context donne 
 
 ## Clustering 
 
 * Faire deux instances avec load balancing ?
 * partage de l'eventbus
+
+## dépasser les limites du bounded context:
+
+* Saga: devis -> panier -> payment -> commande.
+
 
