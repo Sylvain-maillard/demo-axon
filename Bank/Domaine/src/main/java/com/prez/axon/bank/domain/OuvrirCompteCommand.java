@@ -1,6 +1,10 @@
 package com.prez.axon.bank.domain;
 
+import lombok.Value;
+
+@Value
 public class OuvrirCompteCommand {
-    public OuvrirCompteCommand(String jean_bon, double v) {
-    }
+    final String compteId;
+    final String proprietaire;
+    final Double soldeInitial;
 }

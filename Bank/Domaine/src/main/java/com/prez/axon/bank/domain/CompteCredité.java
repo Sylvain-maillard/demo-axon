@@ -1,6 +1,8 @@
 package com.prez.axon.bank.domain;
 
+import lombok.Value;
+
+@Value
 public class CompteCredité {
-    public CompteCredité(int i) {
-    }
+    final double montant;
 }
