@@ -1,4 +1,4 @@
-package com.prez.axon.Bank;
+package com.prez.axon.bank;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
