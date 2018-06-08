@@ -16,6 +16,15 @@
             <groupId>com.prez.axon</groupId>
             <artifactId>Presentation</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.prez.axon</groupId>
+            <artifactId>Infrastructure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
 

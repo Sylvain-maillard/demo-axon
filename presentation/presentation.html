@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+		<link rel="stylesheet" href="css/theme/white.css" id="theme">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -86,6 +86,15 @@
                     smartypants: true
                 }
 			});
+
+            window.addEventListener("mousedown", handleClick, false);
+            window.addEventListener("contextmenu", function(e) { e.preventDefault(); }, false);
+
+            function handleClick(e) {
+                e.preventDefault();
+                if(e.button === 0) Reveal.next();
+                if(e.button === 2) Reveal.prev();
+            }
 
 		</script>
 

@@ -1,0 +1,14 @@
+<configuration>
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([%5.5t]){faint} %clr(%-15.15logger{18}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <logger name="org.axonframework.serialization.ChainingConverter" level="warn"/>
+    <logger name="org.springframework" level="warn"/>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

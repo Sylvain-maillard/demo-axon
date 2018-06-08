@@ -1,6 +1,5 @@
 # CQRS 
 # Event Sourcing 
-# DDD 
 avec le framework Axon
 
 Note:
@@ -11,6 +10,8 @@ Aujourd'hui je voudrais vous faire découvrir l'event sourcing au travers du fra
 # Event sourcing ??
 
 C'est quoi ?
+
+note: https://medium.com/tiller-systems/pourquoi-avoir-choisi-dutiliser-l-architecture-cqrs-e04c082f8b5f
 
 ---
 
@@ -80,28 +81,49 @@ retrouver quel canaux de ventes modifient des pnr en mode non sécurisé (cartes
 Et bien ils étaient incapable de savoir si l'accès via un mode non sécurisé avait eu lieu lors de la création du
 pnr ou lors d'une opération d'après vente !
 
+--- 
+
+# Event Sourcing
+
+Pourquoi on veut faire ça ??
+
+* Auditabilité (en analysant les events)
+* Performance (écritures uniquements)
+* Reprise de données (en rejouant les events)
+
 ---
 
-Les événements d'expriment toujours au passé. 
+# Event sourcing: fonctionnement
 
-Ils sont immuable, car jusqu'à preuve du contraire on ne peut pas changer le passé.
+---
 
-Ils sont diffusés via un bus d'événéments
+> Un événement représente une modification de l'état d'un *agrégat*.
+
+Les événements s'expriment toujours au passé. 
+
+Ils sont immuables.
+
+Ils sont stockés dans l'ordre dans un Event Store.
+
+Ils sont diffusés via un Event Bus.
+
+note: c'est l'application d'un événement sur un agrégat qui provoque la mutation de l'état
+de l'agrégat. par exemple: on ne change le compte que lorsqu'on applique l'état "CompteDébité"  
 
 --- 
 
 ## Créer des événements
 
-avec des commandes
+Avec des commandes
 
 ---
 
-Une commande est une *intention* de modification du système.
+> Une commande est une *intention* de modification d'une entité/agrégat.
 
 Une commande peut:
 
 * être rejetée,
-* générer un ou plusieurs événement, 
+* générer un ou plusieurs événements,
 * n'avoir aucun effet. 
 
 Note:
@@ -109,14 +131,9 @@ Note:
 La commande génère des effets de bord: communication avec un partenaire extérieur, etc. 
 
 ---
-## Résumé sur l'event sourcing
+Modification de l'état d'un agrégat
 
-* Une Commande arrive                                          <!-- .element: class="fragment" data-fragment-index="0" -->
-* Replay des events précédent pour retrouver l'état de l'objet <!-- .element: class="fragment" data-fragment-index="1" -->
-* Exécution de la commande sur l'objet                         <!-- .element: class="fragment" data-fragment-index="2" -->
-* Génération de nouveaux events.                               <!-- .element: class="fragment" data-fragment-index="3" -->
-
-Lorsqu'une nouvelle commande arrive, on rééxecute cette chaine. <!-- .element: class="fragment" data-fragment-index="4" -->
+![Cycle commandes events](cycle-commands-events.png)
 
 ---
 # Quel rapport avec CQRS ?
@@ -127,79 +144,33 @@ note: on voit bien les commandes, c'est quoi les queries ?
 
 ---
 
-*Projection*: vue adaptée pour un use case d'une entité
+*Projections*: vues adaptées pour un use case.
 
-Construite à partir des évents
+- Construites à partir des événements
 
-Orientée en fonction des requêtes
+- Performantes 
 
+- Extensibles 
+
+note: 
+donner des exemples
+performante: car requétable avec des requêtes simples
 On peut en ajouter autant qu'on veut en fonction de l'évolution des uses cases
 
-note: donner des exemples
-
 ---
-## Architecture ES / CQRS
 
-![Archi Axon](axon-architecture-overview.png)
+Architecture Event sourcing CQRS
 
----
-## Quel rapport avec le DDD ?
-
-ça marche bien avec l'event sourcing.
-
-note: L'event sourcing marche pas mal avec le DDD: en effet, l'application de ce pattern oblige à réfléchir en terme
-métier et moins en terme "procédural": pas question ici de Api de Helper de Manager etc. On doit rester focus
-sur les notions métiers (Compte, Crédit) et donc mettre en oeuvre le `language ubiquitaire` du DDD.
-
-On peut associer les évenements de l'évent sourcing avec les Domain Events du DDD.
-
----
-# Deux sortes de DDD
-
-* Stratégique : recherche de "Bounded-Contexts" (domaines fonctionnels) au niveau du SI
- 
-* Tactique: au niveau d'un "Bounded-Context", fait apparaître le langage métier dans l'application 
-
-note:
-- le DDD stratégique: il s'applique à l'ensemble du SI. Il permet d'identifier des Bounded Context, qui sont des
-sortes de modules fonctionnels au sein desquels un mot aura le même sens pour tous les acteurs que ce soit les dev
-ou les experts métiers (on parle du langage ubiquitaire).
-
-Exemple: Dans le cadre d'un parcours de ventes, la "Commande" n'aura pas le même sens si on est en cours de
- finalisation (auquel cas on souhaite avoir tout le détail) ou si on est sur le back office de paiement (auquel
- cas on aura juste l'identifiant de la commande).
-
-- le DDD tactique: c'est une notion qui va s'appliquer sur un seul "Bounded Context", typiquement sur une application
-et dans une seule équipe (c'est le plus simple). Le DDD tactique va nous aider à identifier les éléments de base de
-l'application, et les définir en respectant le language commun.
-
-Le DDD tactique fourni des briques de base pour la conception de notre application. En utilisant ces briques, on va
-avoir un application orientée objets et non pas une application en couche avec des io et du procédural pour tout
-tenir en glue.
-
-.Important
-****
-L'idée du DDD tactique ici est de faire le lien entre le code applicatif et le langage et les concepts manipulés par
-le métier.
-****
-
----
-## les éléments clés du DDD tactique
-
-- Aggregat
-- DomainEvent
-- Entity
-- Value Object
-- Services ????
-
-todo: faire le lien avec l'event sourcing là
+![Archi Axon](axon-architecture-overview.png) <!-- .element: style="max-width: 100%" -->
 
 ---
 # Mise en oeuvre
 
 > Vous pouvez (devez) faire sans framework.
 
-Lu sur un article de blog de Xebia sur l'ES
+[Lu sur un article de blog de Xebia sur l'Event Sourcing](http://blog.xebia.fr/2017/01/16/event-sourcing-comprendre-les-bases-dun-systeme-evenementiel/)
+
+=> ??? en fait... c'est quand même bien pratique un framework. <!-- .element: class="fragment" data-fragment-index="0" -->
 
 note: Ça c'est un gars qui n'a pas du faire beaucoup d'eventsourcing.
 Sur son blog, il indique que les concepts derrière l'event sourcing sont tellement simple qu'il n'est pas
@@ -212,7 +183,6 @@ Dans mon expérience ce n'est pas le cas:
 - Sur *hespéride*, le système d'ES est tellement compliqué qu'il a justifié la refonte complète de l'application.
 
 D'où l'intérêt d'utiliser un framework.
-
 
 ---
 # Axon framework

@@ -8,7 +8,7 @@ Application Bank
 
 ## Premiers use case:
 
-* avec une commande: CréditerCompte
+* avec une commande: OuvrirCompte
 * avec un event bus
 * tout en mémoire
 * création d'une projection du compte
@@ -19,11 +19,11 @@ Application Bank
 * avec un aggregat: Compte
 * avec une commande: OuvrirCompte
 
-### Créditer un compte
+### Créditer/Débiter un compte
 
-* commande
+* commande CréditerCompte, DébiterCompte
 
-### Regle de gestion: détection de piratage
+### Regle de gestion: limitation de débit
 
 * Si un trop gros débit arrive, lancer un évent particulier
 * ajouter une projection pour ce type d'event.
